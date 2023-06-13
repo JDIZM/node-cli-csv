@@ -1,11 +1,11 @@
 {
-  "name": "compound-interest",
+  "name": "csv-picker",
   "version": "1.0.0",
   "description": "",
   "main": "dist/src/index.js",
   "module": "dist/src/index.esm.js",
   "bin": {
-    "pkg-name": "./dist/src/index.js"
+    "csv-picker": "./dist/src/index.js"
   },
   "scripts": {
     "dev": "npx vite-node ./src/index.ts",
@@ -21,6 +21,8 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "cac": "^6.7.14",
+    "chalk": "^4.1.2",
     "@types/node": "^20.2.1",
     "@typescript-eslint/eslint-plugin": "^5.57.0",
     "@typescript-eslint/parser": "^5.57.0",

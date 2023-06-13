@@ -39,7 +39,7 @@ Build and install the package globally so you have access in your cli terminal.
 1. build `npm run build:es`
 2. install `npm install -g .`
 
-Then test the package is working and installed by calling the package name `pkg-name` in your terminal.
+Then test the package is working and installed by calling the package name `csv-picker` in your terminal.
 
 ### Testing
 
@@ -48,3 +48,15 @@ This project uses [vitest](https://vitest.dev/) for testing.
 1. run the unit tests with `npm run test`
 
 It's also recommended to install the [vitest extension for vscode](https://marketplace.visualstudio.com/items?itemName=ZixuanChen.vitest-explorer).
+
+### vite-node
+
+When running the `npm run dev` command you need to prefix any arguments with `--`
+
+eg `npm run dev -- -p ./src/input.csv -o ./src/output.csv`
+
+### Running the cli
+
+1. The input path and output path need to be provided
+2. run `csv-picker --help` for a list of options
+3. run the cli with arguments `csv-picker -p ./src/input.csv -o ./src/output.csv` to create a sorted csv file from an input csv file.

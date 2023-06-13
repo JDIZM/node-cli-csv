@@ -1,0 +1,47 @@
+{
+  "name": "compound-interest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/src/index.js",
+  "module": "dist/src/index.esm.js",
+  "bin": {
+    "pkg-name": "./dist/src/index.js"
+  },
+  "scripts": {
+    "dev": "npx vite-node ./src/index.ts",
+    "lint": "eslint . --ext .ts,.tsx --max-warnings 0",
+    "format": "prettier -w '**/*.{js,ts,mjs,cjs,json,tsx,jsx}'",
+    "format:check": "prettier --check '**/*.{js,ts,mjs,cjs,json,tsx,jsx}'",
+    "tsc:check": "tsc -p tsconfig.json --noEmit",
+    "build:tsc": "rm -rf dist && tsc -p tsconfig.json",
+    "build:es": "npm run tsc:check && rm -rf dist && node build.mjs",
+    "test": "vitest --coverage"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.2.1",
+    "@typescript-eslint/eslint-plugin": "^5.57.0",
+    "@typescript-eslint/parser": "^5.57.0",
+    "@vitest/coverage-c8": "^0.32.0",
+    "eslint": "^8.37.0",
+    "esbuild": "^0.18.1",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-plugin-import": "^2.27.5",
+    "prettier": "^2.8.7",
+    "typescript": "^5.0.4",
+    "vite-node": "^0.31.1",
+    "vitest": "^0.31.1"
+  },
+  "files": [
+    "dist"
+  ],
+  "volta": {
+    "node": "16.18.1"
+  },
+  "exports": {
+    ".": "./dist/src/index.js"
+  }
+}

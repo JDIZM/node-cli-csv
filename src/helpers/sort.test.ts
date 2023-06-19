@@ -36,6 +36,7 @@ describe("array sort", () => {
     const result = array.sort((a, b) => defaultCompare(a, b));
     expect(result).toEqual(["a", "ab", "ac", "ae", "ag", "ba", "z"]);
   });
+
   it("should sort an array of strings that are numbers", () => {
     const array = ["5", "4", "3", "2", "1"];
     const result = array.sort((a, b) => defaultCompare(a, b));
@@ -44,12 +45,13 @@ describe("array sort", () => {
 });
 
 describe("sortProducts", () => {
-  it("should sort an array of products by pick location", () => {
+  it("should sort an array of products by pick location in ascending order from A 1 to A 10", () => {
     const data: ProductTuple[] = [
       ["product_code", "quantity", "pick_location"],
-      ["B1234", "2", "A3"],
-      ["B1235", "3", "A2"],
-      ["B1236", "4", "A1"]
+      ["B1237", "2", "A 10"],
+      ["B1234", "2", "A 3"],
+      ["B1235", "3", "A 2"],
+      ["B1236", "4", "A 1"]
     ];
     const [columns, ...rows] = data;
 
@@ -58,12 +60,13 @@ describe("sortProducts", () => {
 
     expect(result).toEqual([
       ["product_code", "quantity", "pick_location"],
-      ["B1236", "4", "A1"],
-      ["B1235", "3", "A2"],
-      ["B1234", "2", "A3"]
+      ["B1236", "4", "A 1"],
+      ["B1235", "3", "A 2"],
+      ["B1234", "2", "A 3"],
+      ["B1237", "2", "A 10"]
     ]);
   });
-  it("should sort an array of products by bay and shelf height in ascending order", () => {
+  it("should sort an array of products by pick location (bay and shelf height) in ascending order", () => {
     const data: ProductTuple[] = [
       ["product_code", "quantity", "pick_location"],
       ["A", "10", "Z 1"],

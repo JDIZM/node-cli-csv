@@ -40,29 +40,55 @@ export const sortProducts = (products: ProductTuple[]) => {
 
 type SortMethod = "ascending" | "descending";
 
-export const newSortProducts = (products: ProductTuple[], method: SortMethod) => {
-  const result = [...products];
-  console.log("method", method);
+const filterProductsById = (products: ProductTuple[]) => {
+  const productsMap = new Map<string, ProductTuple>();
 
-  for (let p = 0; p < result.length; p++) {
-    // iterate over products
-    console.log("product", result[p]);
+  for (let p = 0; p < products.length; p++) {
+    const product = products[p];
+    const [id] = product;
+
+    if (productsMap.has(id)) {
+      const existingProduct = productsMap.get(id);
+
+      if (existingProduct?.length === 3) {
+        const [, existingQty] = existingProduct;
+        const [, qty] = product;
+        existingProduct[1] = String(Number(existingQty) + Number(qty));
+        productsMap.set(id, existingProduct);
+      }
+      continue;
+    }
+    productsMap.set(id, product);
+  }
+
+  return [...productsMap.values()];
+};
+
+export const newSortProducts = (products: ProductTuple[], method: SortMethod) => {
+  const filtered = filterProductsById(products);
+  const result = [...filtered];
+
+  for (let p = 0; p < products.length; p++) {
+    // iterate over products and check for uniques
+    const product = products[p];
+    const [id] = product;
+
     for (let i = 0; i < result.length; i++) {
       // sort each product by pick location
-      // console.log("i", i);
       const currentProduct = result[i];
       const nextProduct = result[i + 1];
       console.log(currentProduct, nextProduct);
+
       if (!nextProduct) {
         break;
       }
+
       const [, , currentPickLocation] = currentProduct;
       const [, , nextPickLocation] = nextProduct;
       const [currentBay, currentShelf] = currentPickLocation.split(" ");
       const [nextBay, nextShelf] = nextPickLocation.split(" ");
 
       if (currentBay === nextBay) {
-        // console.log("same bay");
         if (Number(currentShelf) > Number(nextShelf)) {
           swap(result, i, i + 1);
         }
@@ -71,6 +97,14 @@ export const newSortProducts = (products: ProductTuple[], method: SortMethod) =>
       if (currentBay > nextBay) {
         swap(result, i, i + 1);
       }
+
+      if (currentBay < nextBay) {
+        continue;
+      }
+
+      // if currentBay is more than one letter eg AZ not A
+      // then sort by the first letter
+      // then sort by the second letter
     }
   }
 

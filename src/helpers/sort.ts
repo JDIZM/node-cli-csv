@@ -37,3 +37,42 @@ export const sortProducts = (products: ProductTuple[]) => {
   products.sort(sortByPickLocation);
   return products;
 };
+
+type SortMethod = "ascending" | "descending";
+
+export const newSortProducts = (products: ProductTuple[], method: SortMethod) => {
+  const result = [...products];
+  console.log("method", method);
+
+  for (let p = 0; p < result.length; p++) {
+    // iterate over products
+    console.log("product", result[p]);
+    for (let i = 0; i < result.length; i++) {
+      // sort each product by pick location
+      // console.log("i", i);
+      const currentProduct = result[i];
+      const nextProduct = result[i + 1];
+      console.log(currentProduct, nextProduct);
+      if (!nextProduct) {
+        break;
+      }
+      const [, , currentPickLocation] = currentProduct;
+      const [, , nextPickLocation] = nextProduct;
+      const [currentBay, currentShelf] = currentPickLocation.split(" ");
+      const [nextBay, nextShelf] = nextPickLocation.split(" ");
+
+      if (currentBay === nextBay) {
+        // console.log("same bay");
+        if (Number(currentShelf) > Number(nextShelf)) {
+          swap(result, i, i + 1);
+        }
+      }
+
+      if (currentBay > nextBay) {
+        swap(result, i, i + 1);
+      }
+    }
+  }
+
+  return result;
+};

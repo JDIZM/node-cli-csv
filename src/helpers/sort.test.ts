@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { swap, defaultCompare, sortProducts, ProductTuple } from "./sort";
+import { swap, defaultCompare, sortProducts, ProductTuple, newSortProducts } from "./sort";
 
 describe("swap", () => {
   it("should swap two items in an array", () => {
@@ -107,5 +107,99 @@ describe("sortProducts", () => {
       ["H", "1", "AB 9"],
       ["F", "1", "AB 10"]
     ]);
+  });
+
+  it("should sort by shelf height if the bays are not the same", () => {
+    const data: ProductTuple[] = [
+      ["product_code", "quantity", "pick_location"],
+      ["B1237", "2", "A 10"],
+      ["B1237", "2", "Z 10"],
+      ["B1234", "2", "Z 3"],
+      ["B1234", "2", "A 3"],
+      ["B1235", "3", "Z 2"],
+      ["B1236", "4", "Z 1"],
+      ["B1235", "3", "A 2"],
+      ["B1236", "4", "A 1"]
+    ];
+
+    const [columns, ...rows] = data;
+
+    const sortedRows = sortProducts(rows);
+    const result = [columns, ...sortedRows];
+    expect(result).toEqual([
+      ["product_code", "quantity", "pick_location"],
+      ["B1236", "4", "A 1"],
+      ["B1235", "3", "A 2"],
+      ["B1234", "2", "A 3"],
+      ["B1237", "2", "A 10"],
+      ["B1236", "4", "Z 1"],
+      ["B1235", "3", "Z 2"],
+      ["B1234", "2", "Z 3"],
+      ["B1237", "2", "Z 10"]
+    ]);
+  });
+});
+
+describe("new sort products", () => {
+  // TODO a to az
+  const data: ProductTuple[] = [
+    ["product_code", "quantity", "pick_location"],
+    ["1", "1", "AB 1"],
+    ["2", "1", "AB 10"],
+    ["3", "1", "AB 9"],
+    ["4", "1", "AB 7"]
+  ];
+  // it("should throw an error if the pick location is invalid", () => {
+  //   //
+  //   // const [columns, ...rows] = data;
+  //   // const result = newSortProducts(rows, "ascending");
+  //   // // console.log('');
+  //   // console.log("result", result);
+  // });
+
+  it("should correctly split a pick location into bay and shelf height", () => {
+    //
+  });
+
+  it("should sort products with the same bay by shelf height", () => {
+    const [, ...rows] = data;
+    const result = newSortProducts(rows, "ascending");
+    expect(result).toEqual([
+      ["1", "1", "AB 1"],
+      ["4", "1", "AB 7"],
+      ["3", "1", "AB 9"],
+      ["2", "1", "AB 10"]
+    ]);
+  });
+
+  it("should sort products that do not have the same bay by bay and then by shelf height", () => {
+    const data: ProductTuple[] = [
+      ["product_code", "quantity", "pick_location"],
+      // ["1", "1", "A 1"],
+      // ["2", "1", "Z 1"],
+      ["3", "1", "AB 10"],
+      ["4", "1", "AB 9"],
+      ["5", "1", "AB 7"],
+      ["6", "1", "AZ 1"],
+      ["7", "1", "AZ 10"],
+      ["8", "1", "AZ 9"],
+      ["9", "1", "AZ 7"]
+    ];
+    const [, ...rows] = data;
+    const result = newSortProducts(rows, "ascending");
+    console.log("result", result);
+    expect(result).toEqual([
+      ["5", "1", "AB 7"],
+      ["4", "1", "AB 9"],
+      ["3", "1", "AB 10"],
+      ["6", "1", "AZ 1"],
+      ["9", "1", "AZ 7"],
+      ["8", "1", "AZ 9"],
+      ["7", "1", "AZ 10"]
+    ]);
+  });
+
+  it("should sort an array of products by pick location in ascending order from A 1 to AZ 10", () => {
+    //
   });
 });

@@ -74,5 +74,9 @@ export const newSortProducts = (products: ProductTuple[], method: SortMethod) =>
     }
   }
 
+  if (method === "descending") {
+    result.reverse();
+  }
+
   return result;
 };

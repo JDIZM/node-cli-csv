@@ -202,4 +202,15 @@ describe("new sort products", () => {
   it("should sort an array of products by pick location in ascending order from A 1 to AZ 10", () => {
     //
   });
+
+  it('should reverse the results if the method is "descending"', () => {
+    const [, ...rows] = data;
+    const result = newSortProducts(rows, "descending");
+    expect(result).toEqual([
+      ["2", "1", "AB 10"],
+      ["3", "1", "AB 9"],
+      ["4", "1", "AB 7"],
+      ["1", "1", "AB 1"]
+    ]);
+  });
 });

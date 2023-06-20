@@ -39,10 +39,13 @@ async function run(args: string[], options: CliOptions = {}) {
   checkColumns(columns);
   logger.info(`processing ${rows.length} rows`);
 
-  const sortedRows = sortProducts(rows, "ascending");
+  const startedSort = Date.now();
+  const sortedRows = sortProducts(rows);
+  const finishedSort = Date.now();
 
   const sortedProducts = [columns, ...sortedRows];
-  logger.success(`sorted ${sortedProducts.length - 1} products`);
+  const timeToSort = finishedSort - startedSort;
+  logger.success(`sorted ${sortedRows.length} products in ${timeToSort}ms`);
 
   createCsvFile(options.output, sortedProducts);
 }

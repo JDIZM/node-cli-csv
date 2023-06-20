@@ -128,14 +128,18 @@ export const compareStrings = (a: string, b: string) => {
   // }
 };
 
-export const sortProducts = (products: ProductTuple[], method: SortMethod) => {
+// Using Bubble Sort
+export const sortProducts = (products: ProductTuple[], method: SortMethod = "ascending") => {
   const result = filterProductsById(products);
 
   for (let p = 0; p < products.length; p++) {
+    // Outer pass
     // iterate over products
 
     for (let i = 0; i < result.length; i++) {
+      // Inner pass
       // sort each product by pick location
+
       const currentProduct = result[i];
       const nextProduct = result[i + 1];
 

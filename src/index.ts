@@ -4,6 +4,7 @@ import cac from "cac";
 import { version } from "../package.json";
 import { checkColumns, readCsvSync, createCsvFile, logger, parseCsv } from "./helpers";
 import { sortProducts } from "./helpers/sort";
+import cliprogress from "cli-progress";
 
 const cli = cac();
 
@@ -39,8 +40,10 @@ async function run(args: string[], options: CliOptions = {}) {
   checkColumns(columns);
   logger.info(`processing ${rows.length} rows`);
 
+  const progress = new cliprogress.SingleBar({}, cliprogress.Presets.shades_classic);
+
   const startedSort = Date.now();
-  const sortedRows = sortProducts(rows);
+  const sortedRows = sortProducts(rows, "ascending", progress);
   const finishedSort = Date.now();
 
   const sortedProducts = [columns, ...sortedRows];

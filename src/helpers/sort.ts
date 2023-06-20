@@ -1,3 +1,5 @@
+import { SingleBar } from "cli-progress";
+
 export const Compare = {
   LESS_THAN: -1,
   BIGGER_THAN: 1,
@@ -129,12 +131,20 @@ export const compareStrings = (a: string, b: string) => {
 };
 
 // Using Bubble Sort
-export const sortProducts = (products: ProductTuple[], method: SortMethod = "ascending") => {
+export const sortProducts = (products: ProductTuple[], method: SortMethod = "ascending", progress?: SingleBar) => {
   const result = filterProductsById(products);
+  // const result = [...products]; // uncomment to test unfiltered for longer duration sort
 
-  for (let p = 0; p < products.length; p++) {
+  if (progress) {
+    progress.start(result.length, 0);
+  }
+
+  for (let p = 0; p < result.length; p++) {
     // Outer pass
     // iterate over products
+    if (progress) {
+      progress.increment();
+    }
 
     for (let i = 0; i < result.length; i++) {
       // Inner pass
@@ -176,6 +186,10 @@ export const sortProducts = (products: ProductTuple[], method: SortMethod = "asc
 
   if (method === "descending") {
     result.reverse();
+  }
+
+  if (progress) {
+    progress.stop();
   }
 
   return result;

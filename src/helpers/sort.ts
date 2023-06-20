@@ -80,6 +80,10 @@ export const compareStrings = (a: string, b: string) => {
   // Case 7: AA, Z - multiple chars, and single char
   // Case 8: Z, AA - single char, and multiple chars
 
+  if (a.length > 2 || b.length > 2) {
+    throw new Error("Invalid string length; string must be 2 characters or less.");
+  }
+
   if (a.length === 1 && b.length === 1) {
     // Case 1: A, A - single chars, both match
     if (a === b) {
@@ -122,8 +126,9 @@ export const compareStrings = (a: string, b: string) => {
     return Compare.LESS_THAN;
   }
 
-  // TODO default case and return value
-  return undefined;
+  // default case and return value
+  // should never be hit
+  return Compare.EQUALS;
 };
 
 export const sortProducts = (products: ProductTuple[], method: SortMethod) => {
@@ -149,11 +154,13 @@ export const sortProducts = (products: ProductTuple[], method: SortMethod) => {
       const compare = compareStrings(currentBay, nextBay);
 
       // top of the sort order
+      // Case 1: skip all less than results
       if (compare === Compare.LESS_THAN) {
         continue;
       }
 
       // swap based on shelf if both match
+      // Case 2: swap based on shelf if both match
       if (compare === Compare.EQUALS) {
         if (Number(currentShelf) > Number(nextShelf)) {
           swap(result, i, i + 1);
@@ -162,6 +169,7 @@ export const sortProducts = (products: ProductTuple[], method: SortMethod) => {
 
       // swap based on bay
       if (compare === Compare.BIGGER_THAN) {
+        // TODO it was saying this wasn't tested before.
         swap(result, i, i + 1);
       }
     }

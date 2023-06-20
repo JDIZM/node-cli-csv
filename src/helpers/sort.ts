@@ -8,12 +8,12 @@ type Compare = (typeof Compare)[keyof typeof Compare];
 
 export type ProductTuple = [string, string, string];
 
-export const defaultCompare = (a: string | number, b: string | number): Compare => {
-  if (a === b) {
-    return Compare.EQUALS;
-  }
-  return a < b ? Compare.LESS_THAN : Compare.BIGGER_THAN;
-};
+// export const defaultCompare = (a: string | number, b: string | number): Compare => {
+//   if (a === b) {
+//     return Compare.EQUALS;
+//   }
+//   return a < b ? Compare.LESS_THAN : Compare.BIGGER_THAN;
+// };
 
 export const swap = (array: unknown[], a: number, b: number) => {
   const temp = array[a];
@@ -21,22 +21,22 @@ export const swap = (array: unknown[], a: number, b: number) => {
   array[b] = temp;
 };
 
-export const sortProducts = (products: ProductTuple[]) => {
-  const sortByPickLocation = (a: ProductTuple, b: ProductTuple) => {
-    const [, , pickLocationA] = a;
-    const [, , pickLocationB] = b;
-    const [bayA, shelfA] = pickLocationA.split(" ");
-    const [bayB, shelfB] = pickLocationB.split(" ");
+// export const sortProducts = (products: ProductTuple[]) => {
+//   const sortByPickLocation = (a: ProductTuple, b: ProductTuple) => {
+//     const [, , pickLocationA] = a;
+//     const [, , pickLocationB] = b;
+//     const [bayA, shelfA] = pickLocationA.split(" ");
+//     const [bayB, shelfB] = pickLocationB.split(" ");
 
-    if (bayA === bayB) {
-      return defaultCompare(Number(shelfA), Number(shelfB));
-    }
+//     if (bayA === bayB) {
+//       return defaultCompare(Number(shelfA), Number(shelfB));
+//     }
 
-    return defaultCompare(pickLocationA, pickLocationB);
-  };
-  products.sort(sortByPickLocation);
-  return products;
-};
+//     return defaultCompare(pickLocationA, pickLocationB);
+//   };
+//   products.sort(sortByPickLocation);
+//   return products;
+// };
 
 type SortMethod = "ascending" | "descending";
 
@@ -114,19 +114,19 @@ export const compareStrings = (a: string, b: string) => {
 
   // Case 7: AA, Z - multiple chars, and single char
   if (a.length > 1 && b.length === 1) {
-    return Compare.LESS_THAN;
+    return Compare.BIGGER_THAN;
   }
 
   // Case 8: Z, AA - single char, and multiple chars
   if (a.length === 1 && b.length > 1) {
-    return Compare.BIGGER_THAN;
+    return Compare.LESS_THAN;
   }
 
   // TODO default case and return value
   return undefined;
 };
 
-export const newSortProducts = (products: ProductTuple[], method: SortMethod) => {
+export const sortProducts = (products: ProductTuple[], method: SortMethod) => {
   const result = filterProductsById(products);
 
   for (let p = 0; p < products.length; p++) {
@@ -146,31 +146,24 @@ export const newSortProducts = (products: ProductTuple[], method: SortMethod) =>
       const [currentBay, currentShelf] = currentPickLocation.split(" ");
       const [nextBay, nextShelf] = nextPickLocation.split(" ");
 
-      // TODO refactor this for multiple letters
-      if (currentBay.length === 1 || currentBay.length > 1) {
-        console.log("equal", currentBay, nextBay);
+      const compare = compareStrings(currentBay, nextBay);
 
-        // top of the sort order
-        if (currentBay < nextBay) {
-          continue;
-        }
+      // top of the sort order
+      if (compare === Compare.LESS_THAN) {
+        continue;
+      }
 
-        // swap based on shelf
-        if (currentBay === nextBay) {
-          if (Number(currentShelf) > Number(nextShelf)) {
-            swap(result, i, i + 1);
-          }
-        }
-
-        // swap based on bay
-        if (currentBay > nextBay) {
+      // swap based on shelf if both match
+      if (compare === Compare.EQUALS) {
+        if (Number(currentShelf) > Number(nextShelf)) {
           swap(result, i, i + 1);
         }
       }
 
-      // if currentBay is more than one letter eg AZ not A
-      // then sort by the first letter
-      // then sort by the second letter
+      // swap based on bay
+      if (compare === Compare.BIGGER_THAN) {
+        swap(result, i, i + 1);
+      }
     }
   }
 

@@ -39,9 +39,9 @@ async function run(args: string[], options: CliOptions = {}) {
   checkColumns(columns);
   logger.info(`processing ${rows.length} rows`);
 
-  sortProducts(rows);
+  const sortedRows = sortProducts(rows, "ascending");
 
-  const sortedProducts = [columns, ...rows];
+  const sortedProducts = [columns, ...sortedRows];
   logger.success(`sorted ${sortedProducts.length - 1} products`);
 
   createCsvFile(options.output, sortedProducts);

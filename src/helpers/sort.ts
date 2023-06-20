@@ -77,6 +77,7 @@ export const compareStrings = (a: string, b: string) => {
   // Case 5: ZA, AA - multiple chars, only second letters match
   // Case 6: ZA, AZ - multiple chars, no match
 
+  // Both
   // Case 7: AA, Z - multiple chars, and single char
   // Case 8: Z, AA - single char, and multiple chars
 
@@ -155,7 +156,6 @@ export const sortProducts = (products: ProductTuple[], method: SortMethod) => {
         continue;
       }
 
-      // swap based on shelf if both match
       // Case 2: swap based on shelf if both match
       if (compare === Compare.EQUALS) {
         if (Number(currentShelf) > Number(nextShelf)) {
@@ -163,7 +163,7 @@ export const sortProducts = (products: ProductTuple[], method: SortMethod) => {
         }
       }
 
-      // swap based on bay
+      // Case 3: swap based on bay
       if (compare === Compare.BIGGER_THAN) {
         swap(result, i, i + 1);
       }

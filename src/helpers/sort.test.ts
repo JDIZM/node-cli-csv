@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { swap, defaultCompare, sortProducts, ProductTuple, newSortProducts } from "./sort";
+import { swap, defaultCompare, sortProducts, ProductTuple, newSortProducts, compareStrings, Compare } from "./sort";
 
 describe("swap", () => {
   it("should swap two items in an array", () => {
@@ -217,7 +217,6 @@ describe("new sort products", () => {
     ];
     const [, ...rows] = data;
     const result = newSortProducts(rows, "ascending");
-    console.log("result", result);
     expect(result).toEqual([
       ["5", "1", "AB 7"],
       ["4", "1", "AB 9"],
@@ -230,6 +229,124 @@ describe("new sort products", () => {
   });
 
   it("should sort an array of products by pick location in ascending order from A 1 to AZ 10", () => {
-    //
+    const data: ProductTuple[] = [
+      ["product_code", "quantity", "pick_location"],
+      ["1", "1", "A 1"],
+      ["2", "1", "Z 1"],
+      ["3", "1", "AB 10"],
+      ["9", "1", "AZ 7"]
+    ];
+    const [, ...rows] = data;
+    const result = newSortProducts(rows, "ascending");
+    console.log("result", result);
+    expect(result).toEqual([
+      ["1", "1", "A 1"],
+      ["2", "1", "Z 1"],
+      ["3", "1", "AB 10"],
+      ["9", "1", "AZ 7"]
+    ]);
   });
+});
+
+describe("compareStrings", () => {
+  // it("should return undefined if nothing matches", () => {
+  //   // TODO empty case
+  // });
+  describe("single char", () => {
+    //  Case 1: A, A - single chars, both match
+    it("should return EQUALS if single chars, both match", () => {
+      const data = ["A", "A"];
+      const result = compareStrings(data[0], data[1]);
+      expect(result).toEqual(Compare.EQUALS);
+    });
+
+    // Case 2: A, Z || Z, A - single chars, no match
+    it("should return BIGGER THAN if single chars, no match", () => {
+      const data = ["Z", "A"];
+      const result = compareStrings(data[0], data[1]);
+      expect(result).toEqual(Compare.BIGGER_THAN);
+    });
+
+    it("should return LESS THAN if single chars, no match", () => {
+      const data = ["A", "Z"];
+      const result = compareStrings(data[0], data[1]);
+      expect(result).toEqual(Compare.LESS_THAN);
+    });
+  });
+
+  describe("multiple chars", () => {
+    //  Case 3: AA, AA - multiple chars, both match
+    it("should return EQUALS if the first and second letters are the same", () => {
+      const data = ["AA", "AA"];
+      const result = compareStrings(data[0], data[1]);
+      expect(result).toEqual(Compare.EQUALS);
+    });
+
+    // Case 4: AA, AZ - multiple chars, only first letters match
+    it("should return LESS THAN if the first letters match but the second char is lower", () => {
+      const data = ["AA", "AB"];
+      const result = compareStrings(data[0], data[1]);
+      expect(result).toEqual(Compare.LESS_THAN);
+    });
+
+    it("should return BIGGER THAN if the first letters match but the second char is higher", () => {
+      const data = ["AB", "AA"];
+      const result = compareStrings(data[0], data[1]);
+      expect(result).toEqual(Compare.BIGGER_THAN);
+    });
+
+    // Case 5: ZA, AA - multiple chars, only second letters match
+    it("should return LESS THAN if the first letters dont match and only second letters match", () => {
+      const data = ["AA", "BA"];
+      const result = compareStrings(data[0], data[1]);
+      expect(result).toEqual(Compare.LESS_THAN);
+    });
+
+    it("should return BIGGER THAN if the first letters dont match and only second letters match", () => {
+      const data = ["BA", "AA"];
+      const result = compareStrings(data[0], data[1]);
+      expect(result).toEqual(Compare.BIGGER_THAN);
+    });
+
+    // Case 6: ZA, AZ - multiple chars, no match
+    it("should return BIGGER THAN if no chars match and the first char is lower", () => {
+      const data = [
+        ["ZA", "AZ"],
+        ["XY", "AK"]
+      ];
+      data.forEach(([a, b]) => {
+        const result = compareStrings(a, b);
+        expect(result).toEqual(Compare.BIGGER_THAN);
+      });
+    });
+
+    it("should return LESS THAN if no chars match and the first char is higher", () => {
+      const data = [
+        ["AZ", "ZA"],
+        ["KA", "XY"]
+      ];
+      data.forEach(([a, b]) => {
+        const result = compareStrings(a, b);
+        expect(result).toEqual(Compare.LESS_THAN);
+      });
+    });
+
+    // Case 7: AA, Z - multiple chars, and single char
+    it("should return LESS THAN if the first string is multiple chars and the second is a single char", () => {
+      const data = ["AA", "Z"];
+      const result = compareStrings(data[0], data[1]);
+      expect(result).toEqual(Compare.LESS_THAN);
+    });
+
+    // Case 8: Z, AA - single char, and multiple chars
+    it("should return BIGGER THAN if the first string is a single char and second is multiple", () => {
+      const data = ["Z", "AA"];
+      const result = compareStrings(data[0], data[1]);
+      expect(result).toEqual(Compare.BIGGER_THAN);
+    });
+  });
+
+  // describe("numeric shelf height", () => {
+  //   //
+  // });
 });

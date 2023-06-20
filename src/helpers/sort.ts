@@ -1,4 +1,4 @@
-const Compare = {
+export const Compare = {
   LESS_THAN: -1,
   BIGGER_THAN: 1,
   EQUALS: 0
@@ -64,20 +64,78 @@ const filterProductsById = (products: ProductTuple[]) => {
   return [...productsMap.values()];
 };
 
+export const compareStrings = (a: string, b: string) => {
+  // Always comparing a to b
+
+  // Single chars
+  // Case 1: A, A - single chars, both match
+  // Case 2: A, Z || Z, A - single chars, no match
+
+  // Multiple chars
+  // Case 3: AA, AA - multiple chars, both match
+  // Case 4: AA, AZ - multiple chars, only first letters match
+  // Case 5: ZA, AA - multiple chars, only second letters match
+  // Case 6: ZA, AZ - multiple chars, no match
+
+  // Case 7: AA, Z - multiple chars, and single char
+  // Case 8: Z, AA - single char, and multiple chars
+
+  if (a.length === 1 && b.length === 1) {
+    // Case 1: A, A - single chars, both match
+    if (a === b) {
+      return Compare.EQUALS;
+    }
+    // Case 2: A, Z || Z, A - single chars, no match
+    return a < b ? Compare.LESS_THAN : Compare.BIGGER_THAN;
+  }
+
+  if (a.length > 1 && b.length > 1) {
+    const [firstLetterA, secondLetterA] = a.split("");
+    const [firstLetterB, secondLetterB] = b.split("");
+
+    if (firstLetterA === firstLetterB) {
+      if (secondLetterA === secondLetterB) {
+        //  Case 3: AA, AA - multiple chars, both match
+        return Compare.EQUALS;
+      }
+
+      // Case 4: AA, AZ - multiple chars, only first letters match
+      return secondLetterA < secondLetterB ? Compare.LESS_THAN : Compare.BIGGER_THAN;
+    }
+
+    // Case 6: ZA, AZ - multiple chars, no match
+    if (firstLetterA !== firstLetterB && secondLetterA !== secondLetterB) {
+      return firstLetterA < firstLetterB ? Compare.LESS_THAN : Compare.BIGGER_THAN;
+    }
+
+    // Case 5: ZA, AA - multiple chars, only second letters match
+    return firstLetterA < firstLetterB ? Compare.LESS_THAN : Compare.BIGGER_THAN;
+  }
+
+  // Case 7: AA, Z - multiple chars, and single char
+  if (a.length > 1 && b.length === 1) {
+    return Compare.LESS_THAN;
+  }
+
+  // Case 8: Z, AA - single char, and multiple chars
+  if (a.length === 1 && b.length > 1) {
+    return Compare.BIGGER_THAN;
+  }
+
+  // TODO default case and return value
+  return undefined;
+};
+
 export const newSortProducts = (products: ProductTuple[], method: SortMethod) => {
-  const filtered = filterProductsById(products);
-  const result = [...filtered];
+  const result = filterProductsById(products);
 
   for (let p = 0; p < products.length; p++) {
-    // iterate over products and check for uniques
-    const product = products[p];
-    const [id] = product;
+    // iterate over products
 
     for (let i = 0; i < result.length; i++) {
       // sort each product by pick location
       const currentProduct = result[i];
       const nextProduct = result[i + 1];
-      console.log(currentProduct, nextProduct);
 
       if (!nextProduct) {
         break;
@@ -88,18 +146,26 @@ export const newSortProducts = (products: ProductTuple[], method: SortMethod) =>
       const [currentBay, currentShelf] = currentPickLocation.split(" ");
       const [nextBay, nextShelf] = nextPickLocation.split(" ");
 
-      if (currentBay === nextBay) {
-        if (Number(currentShelf) > Number(nextShelf)) {
+      // TODO refactor this for multiple letters
+      if (currentBay.length === 1 || currentBay.length > 1) {
+        console.log("equal", currentBay, nextBay);
+
+        // top of the sort order
+        if (currentBay < nextBay) {
+          continue;
+        }
+
+        // swap based on shelf
+        if (currentBay === nextBay) {
+          if (Number(currentShelf) > Number(nextShelf)) {
+            swap(result, i, i + 1);
+          }
+        }
+
+        // swap based on bay
+        if (currentBay > nextBay) {
           swap(result, i, i + 1);
         }
-      }
-
-      if (currentBay > nextBay) {
-        swap(result, i, i + 1);
-      }
-
-      if (currentBay < nextBay) {
-        continue;
       }
 
       // if currentBay is more than one letter eg AZ not A

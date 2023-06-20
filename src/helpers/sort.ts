@@ -122,13 +122,9 @@ export const compareStrings = (a: string, b: string) => {
   }
 
   // Case 8: Z, AA - single char, and multiple chars
-  if (a.length === 1 && b.length > 1) {
-    return Compare.LESS_THAN;
-  }
-
-  // default case and return value
-  // should never be hit
-  return Compare.EQUALS;
+  // if (a.length === 1 && b.length > 1) {
+  return Compare.LESS_THAN;
+  // }
 };
 
 export const sortProducts = (products: ProductTuple[], method: SortMethod) => {
@@ -169,7 +165,6 @@ export const sortProducts = (products: ProductTuple[], method: SortMethod) => {
 
       // swap based on bay
       if (compare === Compare.BIGGER_THAN) {
-        // TODO it was saying this wasn't tested before.
         swap(result, i, i + 1);
       }
     }

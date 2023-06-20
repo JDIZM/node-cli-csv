@@ -72,7 +72,7 @@ describe("sortProducts", () => {
       ["E", "1", "AB 1"],
       ["F", "1", "AB 10"],
       ["H", "1", "AB 9"],
-      ["H", "1", "AB 7"]
+      ["J", "1", "AB 7"]
     ];
     const [columns, ...rows] = data;
 
@@ -82,7 +82,7 @@ describe("sortProducts", () => {
     expect(result).toEqual([
       ["product_code", "quantity", "pick_location"],
       ["E", "1", "AB 1"],
-      ["H", "1", "AB 7"],
+      ["J", "1", "AB 7"],
       ["H", "1", "AB 9"],
       ["F", "1", "AB 10"]
     ]);
@@ -92,13 +92,14 @@ describe("sortProducts", () => {
     const data: ProductTuple[] = [
       ["product_code", "quantity", "pick_location"],
       ["B1237", "2", "A 10"],
-      ["B1237", "2", "Z 10"],
+      ["B1237", "2", "A 10"],
+      ["B12311", "2", "Z 10"],
       ["B1234", "2", "Z 3"],
-      ["B1234", "2", "A 3"],
-      ["B1235", "3", "Z 2"],
-      ["B1236", "4", "Z 1"],
-      ["B1235", "3", "A 2"],
-      ["B1236", "4", "A 1"]
+      ["B1235", "2", "A 3"],
+      ["B1236", "3", "Z 2"],
+      ["B1238", "4", "Z 1"],
+      ["B1239", "3", "A 2"],
+      ["B12310", "4", "A 1"]
     ];
 
     const [columns, ...rows] = data;
@@ -107,14 +108,14 @@ describe("sortProducts", () => {
     const result = [columns, ...sortedRows];
     expect(result).toEqual([
       ["product_code", "quantity", "pick_location"],
-      ["B1236", "4", "A 1"],
-      ["B1235", "3", "A 2"],
-      ["B1234", "2", "A 3"],
-      ["B1237", "2", "A 10"],
-      ["B1236", "4", "Z 1"],
-      ["B1235", "3", "Z 2"],
+      ["B12310", "4", "A 1"],
+      ["B1239", "3", "A 2"],
+      ["B1235", "2", "A 3"],
+      ["B1237", "4", "A 10"],
+      ["B1238", "4", "Z 1"],
+      ["B1236", "3", "Z 2"],
       ["B1234", "2", "Z 3"],
-      ["B1237", "2", "Z 10"]
+      ["B12311", "2", "Z 10"]
     ]);
   });
 });
@@ -219,7 +220,6 @@ describe("compareStrings", () => {
     expect(() => compareStrings("AB", "ABC")).toThrowError();
     expect(() => compareStrings("AB", "AB")).not.toThrowError();
   });
-  // });
   describe("single char", () => {
     //  Case 1: A, A - single chars, both match
     it("should return EQUALS if single chars, both match", () => {

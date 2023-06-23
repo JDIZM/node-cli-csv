@@ -17,14 +17,21 @@ module.exports = {
   settings: {
     // Tells eslint how to resolve imports
     "import/resolver": {
-      alias: {
-        map: [["@", "./src"]],
-        extensions: [".ts", ".js", ".jsx", ".tsx", ".json"]
-      },
-      node: {
-        paths: ["./src"],
-        extensions: [".js", ".jsx", ".ts", ".tsx"]
+      // using the newer eslint-import-resolver-typescript plugin
+      node: true,
+      typescript: {
+        alwaysTryTypes: true,
+        project: "backend/tsconfig.json" // relative to project root.
       }
+      // using the older eslint-import-resolver-alias
+      // alias: {
+      //   map: [["@", "./src"]],
+      //   extensions: [".ts", ".js", ".jsx", ".tsx", ".json"]
+      // },
+      // node: {
+      //   paths: ["./src"],
+      //   extensions: [".js", ".jsx", ".ts", ".tsx"]
+      // }
     },
     "import/parsers": {
       "@typescript-eslint/parser": [".ts", ".tsx"]

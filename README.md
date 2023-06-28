@@ -1,4 +1,6 @@
-# vite-node-ts-starter
+# node-cli-csv
+
+An example project using vite-node and typescript to create a cli tool that ingests csv data and sorts it.
 
 - [vite-node](https://github.com/vitest-dev/vitest/tree/main/packages/vite-node)
 - [esbuild](https://esbuild.github.io/)

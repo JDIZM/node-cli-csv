@@ -1,4 +1,4 @@
-import { SingleBar } from "cli-progress";
+import type { SingleBar } from "cli-progress";
 
 export const Compare = {
   LESS_THAN: -1,

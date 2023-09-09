@@ -20,8 +20,7 @@ module.exports = {
       // using the newer eslint-import-resolver-typescript plugin
       node: true,
       typescript: {
-        alwaysTryTypes: true,
-        project: "backend/tsconfig.json" // relative to project root.
+        alwaysTryTypes: true
       }
       // using the older eslint-import-resolver-alias
       // alias: {

@@ -43,6 +43,8 @@ Build and install the package globally so you have access in your cli terminal.
 
 Then test the package is working and installed by calling the package name `csv-picker` in your terminal.
 
+The run command is `csv-picker -p ./src/input.csv -o ./src/output.csv` which will create a sorted csv file from an input csv file.
+
 ### Testing
 
 This project uses [vitest](https://vitest.dev/) for testing.

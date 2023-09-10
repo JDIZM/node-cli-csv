@@ -2,10 +2,10 @@
   "name": "csv-picker",
   "version": "0.2.0",
   "description": "",
-  "main": "dist/src/index.js",
+  "main": "dist/src/index.cjs",
   "module": "dist/src/index.esm.js",
   "bin": {
-    "csv-picker": "./dist/src/index.js"
+    "csv-picker": "./dist/src/index.cjs"
   },
   "scripts": {
     "dev": "npx vite-node ./src/index.ts",
@@ -46,7 +46,10 @@
     "node": "16.18.1"
   },
   "exports": {
-    ".": "./dist/src/index.js"
+    ".": {
+      "import": "./dist/src/index.esm.js",
+      "require": "./dist/src/index.cjs"
+    }
   },
   "dependencies": {
     "cli-progress": "^3.12.0"

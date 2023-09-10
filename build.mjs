@@ -12,7 +12,7 @@ const sharedConfig = {
 build({
   ...sharedConfig,
   platform: "node",
-  outfile: "dist/src/index.js",
+  outfile: "dist/src/index.cjs",
   format: "cjs"
 });
 

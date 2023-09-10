@@ -38,7 +38,7 @@ https://www.typescriptlang.org/docs/handbook/esm-node.html
 
 Build and install the package globally so you have access in your cli terminal.
 
-1. build `npm run build:es`
+1. build `npm run build:esm`
 2. install `npm install -g .`
 
 Then test the package is working and installed by calling the package name `csv-picker` in your terminal.

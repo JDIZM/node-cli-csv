@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
-import cac from "cac";
+import { cac } from "cac";
 import { version } from "../package.json";
-import { checkColumns, readCsvSync, createCsvFile, logger, parseCsv } from "./helpers";
-import { sortProducts } from "./helpers/sort";
+import { checkColumns, readCsvSync, createCsvFile, logger, parseCsv } from "@/helpers";
+import { sortProducts } from "@/helpers/sort";
 import cliprogress from "cli-progress";
 
 const cli = cac();

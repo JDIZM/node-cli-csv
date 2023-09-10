@@ -46,7 +46,7 @@
     "node": "16.18.1"
   },
   "exports": {
-    ".": "./dist/src/index.esm.js"
+    ".": "./dist/src/index.js"
   },
   "dependencies": {
     "cli-progress": "^3.12.0"

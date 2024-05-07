@@ -9,17 +9,6 @@ An example project using vite-node and typescript to create a cli tool that inge
 - [typescript](https://www.typescriptlang.org/)
 - [vitest](https://vitest.dev/)
 
-A few things to understand
-
-1. building with esbuild
-2. building with the typescript compiler
-
-Importing the package.json makes the tsc compiler bundle the /src folder into the /dist folder. To keep these two build options working together esbuild is configured to nest the output in /src folder too.
-
-Have a play around with the configuration and build options to suit the project.
-
-This is a work in progress template and welcome to feedback.
-
 ## Requirements
 
 This project requires node.js to be installed. This project uses volta to manage node versions.
@@ -38,7 +27,7 @@ https://www.typescriptlang.org/docs/handbook/esm-node.html
 
 Build and install the package globally so you have access in your cli terminal.
 
-1. build `npm run build:esm`
+1. build `npm run build`
 2. install `npm install -g .`
 
 Then test the package is working and installed by calling the package name `csv-picker` in your terminal.
